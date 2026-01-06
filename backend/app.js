@@ -14,7 +14,7 @@ config({ path: "./config/config.env" });
 
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL],
+    origin:"https://job-seeking-website-git-main-ankits-projects-4dfec445.vercel.app/login" ,
     method: ["GET", "POST", "DELETE", "PUT"],
     credentials: true,
   })
