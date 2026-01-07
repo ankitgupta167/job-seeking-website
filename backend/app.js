@@ -25,7 +25,8 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://job-seeking-website-git-main-ankits-projects-4dfec445.vercel.app/login"
+  "https://job-seeking-website.vercel.app",
+  "https://job-seeking-website-git-main-ankits-projects-4dfec445.vercel.app"
 ];
 
 app.use(
