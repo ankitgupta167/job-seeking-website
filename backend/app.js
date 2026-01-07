@@ -12,39 +12,54 @@ import fileUpload from "express-fileupload";
 const app = express();
 config({ path: "./config/config.env" });
 
-// app.use(
-//   cors({
-//     origin:"https://job-seeking-website-git-main-ankits-projects-4dfec445.vercel.app/login" ,
-//     method: ["GET", "POST", "DELETE", "PUT"],
-//     credentials: true,
-//   })
-// );
-// import cookieParser from "cookie-parser";
 
-app.use(cookieParser());
+// app.use(cookieParser());
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://job-seeking-website.vercel.app",
-  "https://job-seeking-website-git-main-ankits-projects-4dfec445.vercel.app"
-];
-
+// const allowedOrigins = [
+//   "http://localhost:5173",
+//   "https://job-seeking-website.vercel.app",
+//   "https://job-seeking-website-git-main-ankits-projects-4dfec445.vercel.app"
+// ];
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin) return callback(null, true); // Postman / server calls
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
+      if (!origin) return callback(null, true);
+
+      // allow localhost
+      if (origin === "http://localhost:5173") {
+        return callback(null, true);
       }
+
+      // allow ALL vercel preview & prod URLs
+      if (origin.endsWith(".vercel.app")) {
+        return callback(null, true);
+      }
+
+      callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
 );
 
-app.use(cookieParser());
+// VERY IMPORTANT
+app.options("*", cors());
+
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       if (!origin) return callback(null, true); // Postman / server calls
+//       if (allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true,
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//   })
+// );
+// app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
