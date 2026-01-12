@@ -12,8 +12,9 @@ import fileUpload from "express-fileupload";
 const app = express();
 config({ path: "./config/config.env" });
 
-
-// app.use(cookieParser());
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // const allowedOrigins = [
 //   "http://localhost:5173",
@@ -59,10 +60,7 @@ app.options("*", cors());
 //     methods: ["GET", "POST", "PUT", "DELETE"],
 //   })
 // );
-// app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
+ 
 app.use(
   fileUpload({
     useTempFiles: true,
@@ -76,3 +74,4 @@ dbConnection();
 
 app.use(errorMiddleware);
 export default app;
+
